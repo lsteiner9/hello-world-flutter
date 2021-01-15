@@ -9,7 +9,7 @@ class Terrain {
     [ 1, -1], [ 1, 0], [ 1, 1]
   ];
   static const _minNeighborsBirth = 3;
-  static const _maxNeigborsBirth = 3;
+  static const _maxNeighborsBirth = 3;
   static const _minNeighborsSurvival = 2;
   static const _maxNeighborsSurvival = 3;
 
@@ -29,6 +29,8 @@ class Terrain {
   Terrain(int size, double density, Random rng) : _size = size {
     _cells = List.generate(size, (i) => Uint8ClampedList(size));
     _next = List.generate(size, (i) => Uint8ClampedList(size));
+    _population = 0;
+    _iterationCount = 0;
     for (var row in _cells) {
       for (var colIndex = 0; colIndex < row.length; colIndex++) {
         if (rng.nextDouble() < density) {
@@ -80,7 +82,7 @@ class Terrain {
     int next;
     if (age == 0) {
       next = (numNeighbors >= _minNeighborsBirth &&
-              numNeighbors <= _maxNeigborsBirth)
+              numNeighbors <= _maxNeighborsBirth)
           ? 1
           : 0;
     } else if (numNeighbors >= _minNeighborsSurvival &&
